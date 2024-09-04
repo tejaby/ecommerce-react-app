@@ -1,6 +1,7 @@
 // librerias
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Link as RouterLink } from "react-router-dom";
 
 // material-ui
 import Grid from "@mui/material/Grid2";
@@ -118,7 +119,9 @@ export const LoginForm = () => {
               <Typography variant="body1" component="p">
                 Aun no tienes cuenta?
               </Typography>
-              <Link href="#">Registrate aquí</Link>
+              <Link component={RouterLink} to="/register">
+                Registrate aquí
+              </Link>
             </Box>
           </Box>
         </Grid>

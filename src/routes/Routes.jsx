@@ -8,6 +8,7 @@ import { Settings } from "../pages/Settings";
 import { DashBoard } from "../pages/DashBoard";
 
 import { ProtectedRoute } from "../components/routes/ProtectedRoute";
+import { PublicRoute } from "../components/routes/PublicRoute";
 
 export const Routes = () => {
   return (
@@ -22,8 +23,22 @@ export const Routes = () => {
         path="/dashboard"
         element={<ProtectedRoute element={DashBoard} />}
       />
-      <Route path="/login" Component={Login} />
-      <Route path="/register" Component={Register} />
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
       <Route path="*" element={<h1>404 Page Not Found</h1>} />
     </RouterRoutes>
   );
