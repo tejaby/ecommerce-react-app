@@ -7,12 +7,27 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import NativeSelect from "@mui/material/NativeSelect";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import { useTheme, useMediaQuery } from "@mui/material";
 
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { schema } from "./schemas/registerSchema";
+
 export const RegisterForm = () => {
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const onSubmit = (data) => console.log(data);
 
   return (
     <>
@@ -24,7 +39,7 @@ export const RegisterForm = () => {
         sx={{ minHeight: "100vh" }}
       >
         {!isSmallScreen && (
-          <Grid size={{ xs: 12, sm: 7 }} sx={{ height: 500 }}>
+          <Grid size={{ xs: 12, sm: 7 }} sx={{ height: 600 }}>
             <Box
               component="img"
               src="https://s3-alpha-sig.figma.com/img/75f3/94c0/a1c7dc5b68a42239311e510f54d8cd59?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GZjunEe5xuQe-8lXUGhONf3DgUkbpHGMnw5y7alQIAiRaDhzGlQyaT6z5I6AdXmcNvgp4ePyESH4aapBXjrNbszx7c12xTxeKRjR1V2zeZO2H9YSt45koJ06RQuU4ee8~BT9HizbV0k-r1gm6kg259izF1Iboa4VuWWX6xnhuWDHF7xwr~neiU6bTzFzYWsXYY0HAcUpfMJZglkd9KUj8WIRbIPlwe7THe2Yjww6RyqgM3d6-glkfOjt0DrG2bUOPUq4C~5Z-vDmZg5LgSUpSThzzgh1nPhvWTFarsV85EzGPXbDVPf3koGe33ROuRvextqcWel4NqEeVNe~8Ej4Gg__"
@@ -41,7 +56,7 @@ export const RegisterForm = () => {
         <Grid
           size={{ xs: 12, sm: 5 }}
           sx={{
-            height: 500,
+            height: 600,
             display: "flex",
             flexDirection: "column",
             overflow: "hidden",
@@ -50,7 +65,11 @@ export const RegisterForm = () => {
           <Box sx={{ px: 4, pt: 0 }}>
             <Typography variant="h5">TejaTienda</Typography>
           </Box>
-          <Box component="form" sx={{ flexGrow: 1, px: 4, pt: 6 }}>
+          <Box
+            component="form"
+            sx={{ flexGrow: 1, px: 4, pt: 6 }}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <Typography variant="h4" component="h2">
               Registrarte
             </Typography>
@@ -58,8 +77,24 @@ export const RegisterForm = () => {
               Ingresa los datos solicitados
             </Typography>
             <Box sx={{ mt: 1, display: "flex", gap: 2 }}>
-              <TextField id="firstName" label="Nombre" variant="standard" />
-              <TextField id="lastName" label="Appellido" variant="standard" />
+              <TextField
+                id="firstName"
+                label="Nombre"
+                variant="standard"
+                fullWidth
+                error={!!errors.first_name?.message}
+                helperText={errors.first_name?.message}
+                {...register("first_name")}
+              />
+              <TextField
+                id="lastName"
+                label="Apellido"
+                variant="standard"
+                fullWidth
+                error={!!errors.last_name?.message}
+                helperText={errors.last_name?.message}
+                {...register("last_name")}
+              />
             </Box>
             <TextField
               id="email"
@@ -67,6 +102,9 @@ export const RegisterForm = () => {
               variant="standard"
               fullWidth
               sx={{ mt: 1 }}
+              error={!!errors.email?.message}
+              helperText={errors.email?.message}
+              {...register("email")}
             />
             <TextField
               id="password"
@@ -76,23 +114,40 @@ export const RegisterForm = () => {
               variant="standard"
               fullWidth
               sx={{ mt: 1 }}
+              error={!!errors.password?.message}
+              helperText={errors.password?.message}
+              {...register("password")}
             />
-            <FormControl fullWidth sx={{ mt: 1 }}>
-              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+            <FormControl
+              fullWidth
+              variant="standard"
+              sx={{ mt: 1, minWidth: 120 }}
+              error={!!errors.rol?.message}
+            >
+              <InputLabel id="demo-simple-select-standard-label">
                 Rol
               </InputLabel>
-              <NativeSelect
-                defaultValue={30}
-                inputProps={{
-                  name: "age",
-                  id: "uncontrolled-native",
-                }}
-              >
-                <option value={10}>usuario</option>
-                <option value={20}>administrador</option>
-              </NativeSelect>
+              <Controller
+                name="rol"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    labelId="rol-label"
+                    id="rol-select"
+                    label="Rol"
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={2}>usuario</MenuItem>
+                    <MenuItem value={1}>administrador</MenuItem>
+                  </Select>
+                )}
+              />
             </FormControl>
-            <Button variant="contained" fullWidth sx={{ mt: 2 }}>
+            <Button variant="contained" fullWidth sx={{ mt: 2 }} type="submit">
               Crear Cuenta
             </Button>
             <Box
