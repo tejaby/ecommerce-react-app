@@ -1,3 +1,8 @@
+// librerias
+import { useForm, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// material-ui
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,9 +16,16 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useTheme, useMediaQuery } from "@mui/material";
 
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+// react
+import { useContext } from "react";
 
+// context
+import { AuthContext } from "../../context/AuthContext";
+
+// services
+import { registerUser } from "../../services/authService";
+
+// components
 import { schema } from "./schemas/registerSchema";
 
 export const RegisterForm = () => {
@@ -27,7 +39,18 @@ export const RegisterForm = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const onSubmit = (data) => console.log(data);
+  const { setUser, setToken } = useContext(AuthContext);
+
+  const onSubmit = async (data) => {
+    try {
+      const newData = { ...data, state_id: 1 };
+      const response = await registerUser(newData);
+      setUser(response.user);
+      setToken(response.token);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -128,7 +151,7 @@ export const RegisterForm = () => {
                 Rol
               </InputLabel>
               <Controller
-                name="rol"
+                name="role_id"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (

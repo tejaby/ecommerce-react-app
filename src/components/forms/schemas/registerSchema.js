@@ -21,7 +21,7 @@ export const schema = yup.object().shape({
     .string()
     .required("¡La contraseña es obligatoria!")
     .min(6, "La contraseña debe tener al menos 6 caracteres"),
-  rol: yup
+  role_id: yup
     .number()
     .oneOf([1, 2], "Rol inválido")
     .required("El rol es requerido"),

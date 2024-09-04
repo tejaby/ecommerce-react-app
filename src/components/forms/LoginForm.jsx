@@ -1,3 +1,8 @@
+// librerias
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// material-ui
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -7,9 +12,16 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import { useTheme, useMediaQuery } from "@mui/material";
 
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+// react
+import { useContext } from "react";
 
+// context
+import { AuthContext } from "../../context/AuthContext";
+
+// services
+import { loginUser } from "../../services/authService";
+
+// components
 import { schema } from "./schemas/loginSchema";
 
 export const LoginForm = () => {
@@ -22,7 +34,17 @@ export const LoginForm = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const onSubmit = (data) => console.log(data);
+  const { setUser, setToken } = useContext(AuthContext);
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await loginUser(data);
+      setUser(response.user);
+      setToken(response.access);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
