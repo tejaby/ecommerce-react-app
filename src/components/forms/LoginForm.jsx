@@ -12,14 +12,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import { useTheme, useMediaQuery } from "@mui/material";
 
-// react
-import { useContext } from "react";
-
-// context
-import { AuthContext } from "../../context/AuthContext";
-
 // services
 import { loginUser } from "../../services/authService";
+
+// hooks
+import { useAuth } from "../../hooks/useAuth";
 
 // components
 import { schema } from "./schemas/loginSchema";
@@ -34,15 +31,12 @@ export const LoginForm = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { setUser, setToken } = useContext(AuthContext);
+  const { executeService, error } = useAuth(loginUser);
 
   const onSubmit = async (data) => {
-    try {
-      const response = await loginUser(data);
-      setUser(response.user);
-      setToken(response.access);
-    } catch (err) {
-      console.log(err);
+    const result = await executeService(data);
+    if (!result) {
+      console.log(error);
     }
   };
 

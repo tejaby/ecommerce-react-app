@@ -16,14 +16,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useTheme, useMediaQuery } from "@mui/material";
 
-// react
-import { useContext } from "react";
-
-// context
-import { AuthContext } from "../../context/AuthContext";
-
 // services
 import { registerUser } from "../../services/authService";
+
+// hooks
+import { useAuth } from "../../hooks/useAuth";
 
 // components
 import { schema } from "./schemas/registerSchema";
@@ -39,16 +36,13 @@ export const RegisterForm = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { setUser, setToken } = useContext(AuthContext);
+  const { executeService, error } = useAuth(registerUser);
 
   const onSubmit = async (data) => {
-    try {
-      const newData = { ...data, state_id: 1 };
-      const response = await registerUser(newData);
-      setUser(response.user);
-      setToken(response.token);
-    } catch (err) {
-      console.log(err);
+    const newData = { ...data, state_id: 1 };
+    const result = await executeService(newData);
+    if (!result) {
+      console.log(error);
     }
   };
 
