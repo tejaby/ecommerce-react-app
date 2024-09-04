@@ -1,7 +1,8 @@
 import { Routes as RouterRoutes, Route } from "react-router-dom";
 
 import { Home } from "../pages/Home";
-import { AuthPage } from "../pages/AuthPage";
+import { Login } from "../pages/Login";
+import { Register } from "../pages/Register";
 import { Profile } from "../pages/Profile";
 import { Settings } from "../pages/Settings";
 import { DashBoard } from "../pages/DashBoard";
@@ -21,7 +22,8 @@ export const Routes = () => {
         path="/dashboard"
         element={<ProtectedRoute element={DashBoard} />}
       />
-      <Route path="/login" Component={AuthPage} />
+      <Route path="/login" Component={Login} />
+      <Route path="/register" Component={Register} />
       <Route path="*" element={<h1>404 Page Not Found</h1>} />
     </RouterRoutes>
   );
