@@ -68,17 +68,33 @@ export const Navbar = () => {
             onClose={handleCloseNavMenu}
             sx={{ display: { xs: "block", md: "none" } }}
           >
-            <MenuItem component={Link} to="/" onClick={handleCloseNavMenu}>
+            <MenuItem
+              component={Link}
+              to="/categorias/laptops"
+              onClick={handleCloseNavMenu}
+            >
               Laptops
             </MenuItem>
-            <MenuItem component={Link} to="/" onClick={handleCloseNavMenu}>
+            <MenuItem
+              component={Link}
+              to="/categorias/perifericos"
+              onClick={handleCloseNavMenu}
+            >
               Perifericos
             </MenuItem>
-            <MenuItem component={Link} to="/" onClick={handleCloseNavMenu}>
+            <MenuItem
+              component={Link}
+              to="/categorias/componentes"
+              onClick={handleCloseNavMenu}
+            >
               Componentes
             </MenuItem>
-            <MenuItem component={Link} to="/" onClick={handleCloseNavMenu}>
-              Las Mas Toras
+            <MenuItem
+              component={Link}
+              to="/categorias/monitores"
+              onClick={handleCloseNavMenu}
+            >
+              Monitores
             </MenuItem>
           </Menu>
         </Box>
@@ -100,17 +116,17 @@ export const Navbar = () => {
             justifyContent: "center",
           }}
         >
-          <MenuItem component={Link} to="/">
+          <MenuItem component={Link} to="/categorias/laptops">
             Laptops
           </MenuItem>
-          <MenuItem component={Link} to="/">
+          <MenuItem component={Link} to="/categorias/perifericos">
             Perifericos
           </MenuItem>
-          <MenuItem component={Link} to="/">
+          <MenuItem component={Link} to="/categorias/componentes">
             Componentes
           </MenuItem>
-          <MenuItem component={Link} to="/">
-            Las Mas Toras
+          <MenuItem component={Link} to="/categorias/monitores">
+            Monitores
           </MenuItem>
         </Box>
 
@@ -166,10 +182,22 @@ export const Navbar = () => {
           open={Boolean(anchorEl)}
           onClose={handleCloseUserMenu}
         >
-          <MenuItem onClick={handleCloseUserMenu}>Perfil</MenuItem>
-          <MenuItem onClick={handleCloseUserMenu}>Compras</MenuItem>
-          <MenuItem onClick={handleCloseUserMenu}>Cesta</MenuItem>
-          <MenuItem onClick={handleCloseUserMenu}>Cerrar Sesión</MenuItem>
+          <MenuItem
+            component={Link}
+            to="/profile"
+            onClick={handleCloseUserMenu}
+          >
+            Perfil
+          </MenuItem>
+          <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
+            Compras
+          </MenuItem>
+          <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
+            Cesta
+          </MenuItem>
+          <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
+            Cerrar Sesión
+          </MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>
