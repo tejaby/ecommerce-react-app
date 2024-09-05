@@ -16,8 +16,10 @@ export const ProductCard = ({ product }) => {
         <Box sx={{ position: "relative", height: 200 }}>
           <CardMedia
             component="img"
-            height="200"
-            image={product.image}
+            height="200px"
+            image={
+              product.image ? product.image : "https://placehold.co/200x200"
+            }
             alt={product.name}
           />
           {product.stock <= 0 && (
