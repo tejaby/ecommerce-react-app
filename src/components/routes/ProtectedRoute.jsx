@@ -10,7 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 // hooks
 import { useAuthValidation } from "../../hooks/useAuthValidation";
 
-export const ProtectedRoute = () => {
+export const ProtectedRoute = ({ children }) => {
   const { token } = useContext(AuthContext);
 
   useAuthValidation();
@@ -19,5 +19,5 @@ export const ProtectedRoute = () => {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return children ? children : <Outlet />;
 };

@@ -1,3 +1,6 @@
+// components
+import { AdminLayout } from "../../components/layouts/AdminLayout";
+
 export const DashBoard = () => {
-  return <div>DashBoard</div>;
+  return <AdminLayout>Dashboard</AdminLayout>;
 };

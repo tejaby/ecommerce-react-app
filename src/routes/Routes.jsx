@@ -41,7 +41,11 @@ export const Routes = () => {
       </Route>
       <Route
         path="/dashboard"
-        element={<ProtectedRoute element={DashBoard} />}
+        element={
+          <ProtectedRoute>
+            <DashBoard />
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/login"
