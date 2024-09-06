@@ -21,6 +21,8 @@ import { Peripherals } from "../pages/products/categories/Peripherals";
 import { Monitors } from "../pages/products/categories/Monitors";
 import { Components } from "../pages/products/categories/Components";
 
+import { Cart } from "../pages/products/Cart";
+
 export const Routes = () => {
   return (
     <RouterRoutes>
@@ -35,6 +37,7 @@ export const Routes = () => {
           <Route path="componentes" element={<Components />} />
           <Route path="monitores" element={<Monitors />} />
         </Route>
+        <Route path="/cart" Component={Cart} />
       </Route>
       <Route
         path="/dashboard"

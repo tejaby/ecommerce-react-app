@@ -153,7 +153,7 @@ export const Navbar = () => {
           </IconButton>
         </Box>
 
-        <IconButton component={Link} to="/" color="inherit">
+        <IconButton component={Link} to="/cart" color="inherit">
           <ShoppingCartIcon />
         </IconButton>
 
@@ -192,7 +192,7 @@ export const Navbar = () => {
           <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
             Compras
           </MenuItem>
-          <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
+          <MenuItem component={Link} to="/cart" onClick={handleCloseUserMenu}>
             Cesta
           </MenuItem>
           <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
