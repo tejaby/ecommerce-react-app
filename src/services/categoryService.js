@@ -27,3 +27,16 @@ export const getCategoriesExtended = async (token) => {
     throw err.response;
   }
 };
+
+export const createCategory = async (token, data) => {
+  try {
+    const response = await axios.post(`${url}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};

@@ -30,3 +30,16 @@ export const getProductsExtended = async (token) => {
     throw err.response;
   }
 };
+
+export const createProduct = async (token, data) => {
+  try {
+    const reponse = await axios.post(`${url}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return reponse.data;
+  } catch (err) {
+    throw err.response;
+  }
+};

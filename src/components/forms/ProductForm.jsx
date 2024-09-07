@@ -15,6 +15,16 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
+// react
+import { useContext, useState, useEffect } from "react";
+
+// context
+import { AuthContext } from "../../context/AuthContext";
+
+// services
+import { createProduct } from "../../services/productService";
+import { getCategories } from "../../services/categoryService";
+
 // components
 import { schema } from "./schemas/productSchema";
 
@@ -38,9 +48,30 @@ export const ProductForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  const { token } = useContext(AuthContext);
+
+  const onSubmit = async (data) => {
+    try {
+      const result = await createProduct(token, { ...data, state_id: 1 });
+    } catch (err) {
+      setError(err.data.error);
+    }
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const result = await getCategories(token);
+        setCategories(result.data);
+      } catch (err) {
+        setError(err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <Box
@@ -129,13 +160,19 @@ export const ProductForm = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={1}>Laptops</MenuItem>
-                <MenuItem value={2}>Perifericos</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem
+                    key={category.category_id}
+                    value={category.category_id}
+                  >
+                    {category.name}
+                  </MenuItem>
+                ))}
               </Select>
             )}
           />
         </FormControl>
-        <Button
+        {/* <Button
           component="label"
           fullWidth
           role={undefined}
@@ -147,7 +184,7 @@ export const ProductForm = () => {
         >
           Upload files
           <VisuallyHiddenInput type="file" {...register("image")} />
-        </Button>
+        </Button> */}
         {errors.image && (
           <Typography
             textAlign={"center"}
