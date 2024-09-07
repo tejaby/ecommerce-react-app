@@ -140,7 +140,7 @@ export const RegisterForm = () => {
               fullWidth
               variant="standard"
               sx={{ mt: 1, minWidth: 120 }}
-              error={!!errors.rol?.message}
+              error={!!errors.role_id?.message}
             >
               <InputLabel id="demo-simple-select-standard-label">
                 Rol

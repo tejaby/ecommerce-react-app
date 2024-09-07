@@ -6,7 +6,7 @@ export const schema = yup.object().shape({
     .required("El nombre es requerido")
     .matches(/^[A-Za-z]+$/, "El nombre solo puede contener letras")
     .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(50, "l nombre no puede tener más de 50 caracteres"),
+    .max(50, "El nombre no puede tener más de 50 caracteres"),
   last_name: yup
     .string()
     .required("El apellido es requerido")
