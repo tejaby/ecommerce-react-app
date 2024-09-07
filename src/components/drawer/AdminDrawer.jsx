@@ -1,3 +1,6 @@
+// librerias
+import { Link } from "react-router-dom";
+
 // material-ui
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -102,10 +105,18 @@ export const AdminDrawer = ({ open, toggleDrawer }) => {
         </ListItem>
         <Collapse in={isCategoriesCollapsed} timeout="auto" unmountOnExit>
           <List component="div" disablePadding onClick={toggleDrawer}>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              component={Link}
+              to="/dashboard/categorias/list"
+              sx={{ pl: 4 }}
+            >
               <ListItemText secondary="Listar Categorías" />
             </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              component={Link}
+              to="/dashboard/categorias/create"
+              sx={{ pl: 4 }}
+            >
               <ListItemText secondary="Crear Categoría" />
             </ListItemButton>
           </List>
@@ -123,10 +134,18 @@ export const AdminDrawer = ({ open, toggleDrawer }) => {
         </ListItem>
         <Collapse in={isProductsCollapsed} timeout="auto" unmountOnExit>
           <List component="div" disablePadding onClick={toggleDrawer}>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              component={Link}
+              to="/dashboard/productos/list"
+              sx={{ pl: 4 }}
+            >
               <ListItemText secondary="Listar Productos" />
             </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              component={Link}
+              to="/dashboard/productos/create"
+              sx={{ pl: 4 }}
+            >
               <ListItemText secondary="Crear Producto" />
             </ListItemButton>
           </List>

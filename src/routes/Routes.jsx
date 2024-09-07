@@ -14,6 +14,12 @@ import { Profile } from "../pages/user/Profile";
 import { Settings } from "../pages/user/Settings";
 
 import { DashBoard } from "../pages/admin/DashBoard";
+import { AdminCategories } from "../pages/admin/categories/AdminCategories";
+import { ListCategories } from "../pages/admin/categories/ListCategories";
+import { CreateCategory } from "../pages/admin/categories/CreateCategory";
+import { AdminProducts } from "../pages/admin/products/AdminProducts";
+import { ListProducts } from "../pages/admin/products/ListProducts";
+import { CreateProduct } from "../pages/admin/products/CreateProduct";
 
 import { Products } from "../pages/products/Products";
 import { Laptops } from "../pages/products/categories/Laptops";
@@ -39,14 +45,19 @@ export const Routes = () => {
         </Route>
         <Route path="/cart" Component={Cart} />
       </Route>
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashBoard />
-          </ProtectedRoute>
-        }
-      />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<DashBoard />}>
+          <Route path="categorias" element={<AdminCategories />}>
+            <Route path="list" element={<ListCategories />} />
+            <Route path="create" element={<CreateCategory />} />
+          </Route>
+          <Route path="productos" element={<AdminProducts />}>
+            <Route path="list" element={<ListProducts />} />
+            <Route path="create" element={<CreateProduct />} />
+          </Route>
+          <Route path="productos" element={<div>productos</div>} />
+        </Route>
+      </Route>
       <Route
         path="/login"
         element={
