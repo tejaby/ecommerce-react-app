@@ -1,13 +1,10 @@
 import axios from "axios";
 
-const url = "http://localhost:3000/api/products";
+const url = "http://localhost:3000/api/categories";
 
-export const getProducts = async (token, category) => {
+export const getCategories = async (token) => {
   try {
-    const queryString = category ? `?category=${category}` : "";
-    const fullUrl = `${url}${queryString}`;
-
-    const response = await axios.get(`${fullUrl}`, {
+    const response = await axios.get(`${url}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -18,7 +15,7 @@ export const getProducts = async (token, category) => {
   }
 };
 
-export const getProductsExtended = async (token) => {
+export const getCategoriesExtended = async (token) => {
   try {
     const response = await axios.get(`${url}/extended`, {
       headers: {

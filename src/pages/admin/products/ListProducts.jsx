@@ -10,32 +10,23 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 
-const products = [
-  {
-    product_id: 1,
-    name: "Razer Huntsman V3 Pro",
-    description: "Analog Optical Esports Keyboard",
-    brand: "razer",
-    price: 2000.0,
-    stock: 10,
-    user_id: 1,
-    category_id: 1,
-    state_id: 1,
-  },
-  {
-    product_id: 2,
-    name: "Razer Huntsman V3 Pro Mini",
-    description: "60% Gaming Keyboard with Razer™ Optical Switch",
-    brand: "razer",
-    price: 1800.0,
-    stock: 10,
-    user_id: 1,
-    category_id: 1,
-    state_id: 1,
-  },
-];
+// react
+import { useContext } from "react";
+
+// context
+import { AuthContext } from "../../../context/AuthContext";
+
+// services
+import { getProductsExtended } from "../../../services/productService";
+
+// hooks
+import { useFetchService } from "../../../hooks/useFetchService";
 
 export const ListProducts = () => {
+  const { token } = useContext(AuthContext);
+
+  const { data } = useFetchService(getProductsExtended, token);
+
   return (
     <>
       <Typography variant="h6" sx={{ mb: 2 }}>
@@ -57,7 +48,7 @@ export const ListProducts = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((item) => (
+            {data.map((item) => (
               <TableRow key={item.product_id}>
                 <TableCell component="th" scope="row">
                   {item.name}
@@ -66,9 +57,9 @@ export const ListProducts = () => {
                 <TableCell align="right">{item.brand}</TableCell>
                 <TableCell align="right">{item.price}</TableCell>
                 <TableCell align="right">{item.stock}</TableCell>
-                <TableCell align="right">{item.user_id}</TableCell>
-                <TableCell align="right">{item.category_id}</TableCell>
-                <TableCell align="right">{item.state_id}</TableCell>
+                <TableCell align="right">{item.user}</TableCell>
+                <TableCell align="right">{item.category}</TableCell>
+                <TableCell align="right">{item.state}</TableCell>
                 <TableCell align="right">
                   <IconButton>
                     <EditIcon />
