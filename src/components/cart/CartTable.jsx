@@ -14,7 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 export const CartTable = ({ cartItems }) => {
   return (
     <TableContainer component={Paper}>
-      <Table>
+      <Table sx={{ minWidth: 900 }}>
         <TableHead>
           <TableRow hover>
             <TableCell>Producto</TableCell>

@@ -7,14 +7,14 @@ export const CartContactForm = () => {
     <Box sx={{ width: "50%", display: "flex", gap: 2, mb: 2 }}>
       <TextField
         size="small"
-        variant="filled"
+        variant="standard"
         label="Numero de telefono"
         placeholder="0000-0000"
         fullWidth
       />
       <TextField
         size="small"
-        variant="filled"
+        variant="standard"
         label="Direccion"
         placeholder="Sumpango sacate"
         fullWidth

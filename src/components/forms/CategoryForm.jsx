@@ -45,7 +45,7 @@ export const CategoryForm = () => {
         <TextField
           id="standard-basic"
           label="Nombre de la categoría"
-          variant="filled"
+          variant="standard"
           fullWidth
           sx={{ mt: 2 }}
           error={!!errors.name?.message}
