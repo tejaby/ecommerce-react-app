@@ -4,6 +4,7 @@ import { Routes as RouterRoutes, Route } from "react-router-dom";
 // components
 import { ProtectedRoute } from "../components/routes/ProtectedRoute";
 import { PublicRoute } from "../components/routes/PublicRoute";
+import { AdminRoute } from "../components/routes/AdminRoute";
 
 // pages
 import { Home } from "../pages/Home";
@@ -45,7 +46,7 @@ export const Routes = () => {
         </Route>
         <Route path="/cart" Component={Cart} />
       </Route>
-      <Route element={<ProtectedRoute />}>
+      <Route element={<AdminRoute />}>
         <Route path="/dashboard" element={<DashBoard />}>
           <Route path="categorias" element={<AdminCategories />}>
             <Route path="list" element={<ListCategories />} />
