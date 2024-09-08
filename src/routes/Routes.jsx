@@ -21,6 +21,9 @@ import { CreateCategory } from "../pages/admin/categories/CreateCategory";
 import { AdminProducts } from "../pages/admin/products/AdminProducts";
 import { ListProducts } from "../pages/admin/products/ListProducts";
 import { CreateProduct } from "../pages/admin/products/CreateProduct";
+import { AdminOrders } from "../pages/admin/orders/AdminOrders";
+import { ActiveOrders } from "../pages/admin/orders/ActiveOrders";
+import { CompletedOrders } from "../pages/admin/orders/CompletedOrders";
 
 import { Products } from "../pages/products/Products";
 import { Laptops } from "../pages/products/categories/Laptops";
@@ -56,7 +59,10 @@ export const Routes = () => {
             <Route path="list" element={<ListProducts />} />
             <Route path="create" element={<CreateProduct />} />
           </Route>
-          <Route path="productos" element={<div>productos</div>} />
+          <Route path="orders" element={<AdminOrders />}>
+            <Route path="active" element={<ActiveOrders />} />
+            <Route path="history" element={<CompletedOrders />} />
+          </Route>
         </Route>
       </Route>
       <Route

@@ -66,10 +66,18 @@ export const AdminDrawer = ({ open, toggleDrawer }) => {
         </ListItem>
         <Collapse in={isOrdersCollapsed} timeout="auto" unmountOnExit>
           <List component="div" disablePadding onClick={toggleDrawer}>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              component={Link}
+              to="/dashboard/orders/active"
+              sx={{ pl: 4 }}
+            >
               <ListItemText secondary="Pedidos pendientes" />
             </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }}>
+            <ListItemButton
+              component={Link}
+              to="/dashboard/orders/history"
+              sx={{ pl: 4 }}
+            >
               <ListItemText secondary="Pedidos finalizados" />
             </ListItemButton>
           </List>
