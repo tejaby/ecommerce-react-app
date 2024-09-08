@@ -73,6 +73,13 @@ export const AdminNavbar = ({ toggleDrawer }) => {
           >
             Perfil
           </MenuItem>
+          <MenuItem
+            component={Link}
+            to="/"
+            onClick={handleCloseUserMenu}
+          >
+            Tienda
+          </MenuItem>
           <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
             Cerrar Sesión
           </MenuItem>

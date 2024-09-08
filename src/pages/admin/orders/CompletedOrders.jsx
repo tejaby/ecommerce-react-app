@@ -14,55 +14,15 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 // react
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
-const orders = [
-  {
-    order_id: 1,
-    address: "zona 1 sumpango",
-    phone_number: "88997766",
-    total_amount: 300.0,
-    order_date: "2023-01-02",
-    user_id: 1,
-    state_id: 3,
-    order_details: [
-      {
-        order_detail_id: 1,
-        quantity: 1,
-        price: 300.0,
-        product_id: 1,
-        order_id: 1,
-      },
-    ],
-  },
-  {
-    order_id: 2,
-    address: "zona 5 sumpango",
-    phone_number: "88665533",
-    total_amount: 500.0,
-    order_date: "2024-01-02",
-    user_id: 2,
-    state_id: 3,
-    order_details: [
-      {
-        order_detail_id: 2,
-        quantity: 1,
-        price: 300.0,
-        product_id: 1,
-        order_id: 2,
-      },
-      {
-        order_detail_id: 3,
-        quantity: 1,
-        price: 200.0,
-        product_id: 2,
-        order_id: 2,
-      },
-    ],
-  },
-];
+// context
+import { AuthContext } from "../../../context/AuthContext";
 
-function Row({ row }) {
+// services
+import { getOrders, getOrderDetails } from "../../../services/orderService";
+
+function Row({ row, fertchinOrderDetails, orderDetails }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -72,7 +32,10 @@ function Row({ row }) {
           <IconButton
             aria-label="expand row"
             size="small"
-            onClick={() => setOpen(!open)}
+            onClick={() => {
+              setOpen(!open);
+              fertchinOrderDetails(row.order_id);
+            }}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
@@ -83,8 +46,8 @@ function Row({ row }) {
         <TableCell align="right">{row.phone_number}</TableCell>
         <TableCell align="right">{row.total_amount}</TableCell>
         <TableCell align="right">{row.order_date}</TableCell>
-        <TableCell align="right">{row.user_id}</TableCell>
-        <TableCell align="right">{row.state_id}</TableCell>
+        <TableCell align="right">{row.user}</TableCell>
+        <TableCell align="right">{row.state}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -102,15 +65,13 @@ function Row({ row }) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.order_details.map((historyRow) => (
+                  {orderDetails.map((historyRow) => (
                     <TableRow key={historyRow.order_detail_id}>
                       <TableCell component="th" scope="row">
                         {historyRow.quantity}
                       </TableCell>
                       <TableCell>{historyRow.price}</TableCell>
-                      <TableCell align="right">
-                        {historyRow.product_id}
-                      </TableCell>
+                      <TableCell align="right">{historyRow.name}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -124,26 +85,65 @@ function Row({ row }) {
 }
 
 export const CompletedOrders = () => {
+  const [orders, setOrders] = useState([]);
+  const [orderDetails, setOrderDetails] = useState([]);
+
+  const { token } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const result = await getOrders(token);
+        const filterOrders = result.data.filter((order) => {
+          return order.state !== "pending";
+        });
+        setOrders(filterOrders);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  const fertchinOrderDetails = async (id) => {
+    try {
+      const result = await getOrderDetails(token, id);
+      setOrderDetails(result.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <TableContainer component={Paper} sx={{ minWidth: 900 }}>
-      <Table aria-label="collapsible table">
-        <TableHead>
-          <TableRow hover>
-            <TableCell />
-            <TableCell>Dirección</TableCell>
-            <TableCell align="right">Número de teléfono</TableCell>
-            <TableCell align="right">Total gastado</TableCell>
-            <TableCell align="right">Fecha de pedido</TableCell>
-            <TableCell align="right">Usuario</TableCell>
-            <TableCell align="right">Estado</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {orders.map((row) => (
-            <Row key={row.order_id} row={row} />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <Typography variant="body1" sx={{ mb: 2 }}>
+        Registro de pedidos completados, rechazados o cancelados.
+      </Typography>
+      <TableContainer component={Paper} sx={{ minWidth: 900 }}>
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow hover>
+              <TableCell />
+              <TableCell>Dirección</TableCell>
+              <TableCell align="right">Número de teléfono</TableCell>
+              <TableCell align="right">Total gastado</TableCell>
+              <TableCell align="right">Fecha de pedido</TableCell>
+              <TableCell align="right">Usuario</TableCell>
+              <TableCell align="right">Estado</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {orders.map((row) => (
+              <Row
+                key={row.order_id}
+                row={row}
+                fertchinOrderDetails={fertchinOrderDetails}
+                orderDetails={orderDetails}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };

@@ -16,11 +16,16 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 // react
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+// context
+import { AuthContext } from "../../context/AuthContext";
 
 export const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const { user } = useContext(AuthContext);
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
@@ -189,6 +194,16 @@ export const Navbar = () => {
           >
             Perfil
           </MenuItem>
+          {user.role_id === 1 && (
+            <MenuItem
+              component={Link}
+              to="/dashboard/orders/history"
+              onClick={handleCloseUserMenu}
+            >
+              Dashboard
+            </MenuItem>
+          )}
+
           <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
             Compras
           </MenuItem>
