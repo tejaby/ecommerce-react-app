@@ -12,6 +12,7 @@ import { Login } from "../pages/auth/Login";
 import { Register } from "../pages/auth/Register";
 
 import { Profile } from "../pages/user/Profile";
+import { PurchaseHistory } from "../pages/user/PurchaseHistory";
 import { Settings } from "../pages/user/Settings";
 
 import { DashBoard } from "../pages/admin/DashBoard";
@@ -40,6 +41,7 @@ export const Routes = () => {
         <Route index Component={Home} />
         <Route path="/home" Component={Home} />
         <Route path="/profile" Component={Profile} />
+        <Route path="/order" Component={PurchaseHistory} />
         <Route path="/settings" Component={Settings} />\
         <Route path="/categorias" element={<Products />}>
           <Route path="laptops" element={<Laptops />} />

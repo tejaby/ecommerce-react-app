@@ -27,3 +27,29 @@ export const getOrderDetails = async (token, id) => {
     throw err.response;
   }
 };
+
+export const getOrdersUsers = async (token) => {
+  try {
+    const response = await axios.get(`${url}/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};
+
+export const getOrderDetailsUsers = async (token, id) => {
+  try {
+    const response = await axios.get(`${url}/${id}/details/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};

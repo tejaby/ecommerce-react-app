@@ -204,7 +204,7 @@ export const Navbar = () => {
             </MenuItem>
           )}
 
-          <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
+          <MenuItem component={Link} to="/order" onClick={handleCloseUserMenu}>
             Compras
           </MenuItem>
           <MenuItem component={Link} to="/cart" onClick={handleCloseUserMenu}>
