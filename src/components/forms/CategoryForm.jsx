@@ -1,6 +1,7 @@
 // librerias
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 
 // material-ui
 import Box from "@mui/material/Box";
@@ -28,15 +29,16 @@ export const CategoryForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const [error, setError] = useState(null);
-
   const { token } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       const result = await createCategory(token, { ...data, state_id: 1 });
+      navigate("/dashboard/categorias/list");
     } catch (err) {
-      setError(err.data.error);
+      console.log(err.data.error);
     }
   };
 

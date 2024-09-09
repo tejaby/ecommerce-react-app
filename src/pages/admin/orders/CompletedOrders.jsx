@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
@@ -22,12 +23,15 @@ import { AuthContext } from "../../../context/AuthContext";
 // services
 import { getOrders, getOrderDetails } from "../../../services/orderService";
 
+// utils
+import { getStatusColor } from "../../../utils/getStatusColor";
+
 function Row({ row, fertchinOrderDetails, orderDetails }) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow hover sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -47,7 +51,9 @@ function Row({ row, fertchinOrderDetails, orderDetails }) {
         <TableCell align="right">{row.total_amount}</TableCell>
         <TableCell align="right">{row.order_date}</TableCell>
         <TableCell align="right">{row.user}</TableCell>
-        <TableCell align="right">{row.state}</TableCell>
+        <TableCell align="right">
+          <Chip label={row.state} color={getStatusColor(row.state_id)} />
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -122,7 +128,7 @@ export const CompletedOrders = () => {
       <TableContainer component={Paper} sx={{ minWidth: 900 }}>
         <Table aria-label="collapsible table">
           <TableHead>
-            <TableRow hover>
+            <TableRow>
               <TableCell />
               <TableCell>Dirección</TableCell>
               <TableCell align="right">Número de teléfono</TableCell>

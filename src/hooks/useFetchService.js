@@ -19,9 +19,9 @@ export const useFetchService = (service, token, category = null) => {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, []);
 
-  return { data, error, loading };
+  return { data, setData, error, loading };
 };

@@ -31,14 +31,53 @@ export const getProductsExtended = async (token) => {
   }
 };
 
-export const createProduct = async (token, data) => {
+export const getProduct = async (token, id) => {
   try {
-    const reponse = await axios.post(`${url}`, data, {
+    const response = await axios.get(`${url}/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return reponse.data;
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};
+
+export const createProduct = async (token, data) => {
+  try {
+    const response = await axios.post(`${url}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};
+
+export const updateProduct = async (token, id, data) => {
+  try {
+    const response = await axios.put(`${url}/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};
+
+export const updateProductState = async (token, id, data) => {
+  try {
+    const response = await axios.put(`${url}/${id}/state`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
   } catch (err) {
     throw err.response;
   }

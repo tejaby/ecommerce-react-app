@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -18,6 +19,9 @@ import { AuthContext } from "../../../context/AuthContext";
 
 // services
 import { getOrders } from "../../../services/orderService";
+
+// utils
+import { getStatusColor } from "../../../utils/getStatusColor";
 
 export const ActiveOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -47,7 +51,7 @@ export const ActiveOrders = () => {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 900 }}>
           <TableHead>
-            <TableRow hover>
+            <TableRow>
               <TableCell>Dirección</TableCell>
               <TableCell align="right">Número de teléfono</TableCell>
               <TableCell align="right">Total gastado</TableCell>
@@ -58,14 +62,16 @@ export const ActiveOrders = () => {
           </TableHead>
           <TableBody>
             {orders.map((item) => (
-              <TableRow key={item.order_id}>
+              <TableRow hover key={item.order_id}>
                 <TableCell component="th" scope="row">
                   {item.address}
                 </TableCell>
                 <TableCell align="right">{item.phone_number}</TableCell>
                 <TableCell align="right">{item.total_amount}</TableCell>
                 <TableCell align="right">{item.user}</TableCell>
-                <TableCell align="right">{item.state}</TableCell>
+                <TableCell align="right">
+                  <Chip label={item.state} color={getStatusColor(item.state_id)} />
+                </TableCell>
                 <TableCell align="right">
                   <IconButton>
                     <EditIcon />

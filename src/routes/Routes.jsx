@@ -19,9 +19,11 @@ import { DashBoard } from "../pages/admin/DashBoard";
 import { AdminCategories } from "../pages/admin/categories/AdminCategories";
 import { ListCategories } from "../pages/admin/categories/ListCategories";
 import { CreateCategory } from "../pages/admin/categories/CreateCategory";
+import { EditCategory } from "../pages/admin/categories/EditCategory";
 import { AdminProducts } from "../pages/admin/products/AdminProducts";
 import { ListProducts } from "../pages/admin/products/ListProducts";
 import { CreateProduct } from "../pages/admin/products/CreateProduct";
+import { EditProduct } from "../pages/admin/products/EditProduct";
 import { AdminOrders } from "../pages/admin/orders/AdminOrders";
 import { ActiveOrders } from "../pages/admin/orders/ActiveOrders";
 import { CompletedOrders } from "../pages/admin/orders/CompletedOrders";
@@ -56,10 +58,12 @@ export const Routes = () => {
           <Route path="categorias" element={<AdminCategories />}>
             <Route path="list" element={<ListCategories />} />
             <Route path="create" element={<CreateCategory />} />
+            <Route path="edit/:id" element={<EditCategory />} />
           </Route>
           <Route path="productos" element={<AdminProducts />}>
             <Route path="list" element={<ListProducts />} />
             <Route path="create" element={<CreateProduct />} />
+            <Route path="edit/:id" element={<EditProduct />} />
           </Route>
           <Route path="orders" element={<AdminOrders />}>
             <Route path="active" element={<ActiveOrders />} />

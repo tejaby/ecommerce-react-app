@@ -1,6 +1,7 @@
 // librerias
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 
 // material-ui
 import Box from "@mui/material/Box";
@@ -48,16 +49,18 @@ export const ProductForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
 
   const { token } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     try {
       const result = await createProduct(token, { ...data, state_id: 1 });
+      navigate("/dashboard/productos/list");
     } catch (err) {
-      setError(err.data.error);
+      console.log(err.data.error);
     }
   };
 
@@ -67,7 +70,7 @@ export const ProductForm = () => {
         const result = await getCategories(token);
         setCategories(result.data);
       } catch (err) {
-        setError(err);
+        console.log(err.data.error);
       }
     };
     fetchCategories();
