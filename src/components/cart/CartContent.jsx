@@ -1,3 +1,7 @@
+// librerias
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 // material-ui
 import Box from "@mui/material/Box";
 
@@ -13,9 +17,17 @@ import { CartContactForm } from "./CartContactForm";
 import { CartTable } from "./CartTable";
 import { CartFooter } from "./CartFooter";
 import { EmptyCart } from "./EmptyCart";
+import { schema } from "./schemas/orderSchema";
 
 export const CartContent = () => {
   const { cartItems } = useContext(CartContext);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({ resolver: yupResolver(schema) });
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -25,9 +37,14 @@ export const CartContent = () => {
   return cartItems.length > 0 ? (
     <Box sx={{ maxWidth: "lg", margin: "auto", padding: 2 }}>
       <CartHeader />
-      <CartContactForm />
+      <CartContactForm register={register} errors={errors} />
       <CartTable cartItems={cartItems} />
-      <CartFooter subtotal={subtotal} />
+      <CartFooter
+        cartItems={cartItems}
+        subtotal={subtotal}
+        handleSubmit={handleSubmit}
+        reset={reset}
+      />
     </Box>
   ) : (
     <EmptyCart />

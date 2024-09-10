@@ -53,3 +53,16 @@ export const getOrderDetailsUsers = async (token, id) => {
     throw err.response;
   }
 };
+
+export const createOrder = async (token, data) => {
+  try {
+    const response = await axios.post(`${url}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};

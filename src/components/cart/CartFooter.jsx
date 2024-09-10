@@ -4,14 +4,38 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 
+// services
+import { createOrder } from "../../services/orderService";
+
 // hooks
 import { useCartActions } from "../../hooks/useCartActions";
+import { useSubmit } from "../../hooks/useSubmit";
 
-export const CartFooter = ({ subtotal }) => {
+export const CartFooter = ({ cartItems, subtotal, handleSubmit, reset }) => {
+  const { execute, data, error, loading } = useSubmit(createOrder);
+
   const { clearCart } = useCartActions();
+
+  const onSubmit = (data) => {
+    const order = {
+      ...data,
+      total_amount: subtotal,
+      state_id: 3,
+      order_details: cartItems.map((item) => ({
+        product_id: item.product_id,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+    };
+    execute(order);
+    reset();
+    clearCart();
+  };
 
   return (
     <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
       sx={{
         display: "flex",
         justifyContent: "space-between",
@@ -38,7 +62,7 @@ export const CartFooter = ({ subtotal }) => {
           <Typography variant="h6">Total:</Typography>
           <Typography variant="h6">Q{subtotal}</Typography>
         </Box>
-        <Button variant="contained" color="primary" fullWidth>
+        <Button type="submit" variant="contained" color="primary" fullWidth>
           Confirmar Compra
         </Button>
       </Paper>
