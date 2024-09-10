@@ -10,6 +10,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -20,12 +21,14 @@ import { useState, useContext } from "react";
 
 // context
 import { AuthContext } from "../../context/AuthContext";
+import { CartContext } from "../../context/CartContext";
 
 export const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { user } = useContext(AuthContext);
+  const { cartItems } = useContext(CartContext);
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
@@ -159,7 +162,9 @@ export const Navbar = () => {
         </Box>
 
         <IconButton component={Link} to="/cart" color="inherit">
-          <ShoppingCartIcon />
+          <Badge badgeContent={cartItems.length} color="primary">
+            <ShoppingCartIcon />
+          </Badge>
         </IconButton>
 
         <IconButton

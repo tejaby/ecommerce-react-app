@@ -1,3 +1,6 @@
+// librerias
+import { Link } from "react-router-dom";
+
 // material-ui
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -9,7 +12,9 @@ export const CartHeader = () => {
       <Typography variant="h6" sx={{ mb: 2 }}>
         Cart
       </Typography>
-      <Button variant="outlined">Regresar a la tienda</Button>
+      <Button variant="outlined" color="primary" component={Link} to="/">
+        Regresar a la tienda
+      </Button>
     </Box>
   );
 };

@@ -4,7 +4,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 
+// hooks
+import { useCartActions } from "../../hooks/useCartActions";
+
 export const CartFooter = ({ subtotal }) => {
+  const { clearCart } = useCartActions();
+
   return (
     <Box
       sx={{
@@ -14,7 +19,7 @@ export const CartFooter = ({ subtotal }) => {
         mt: 2,
       }}
     >
-      <Button variant="contained" color="error">
+      <Button variant="contained" color="error" onClick={clearCart}>
         Cancelar compra
       </Button>
       <Paper elevation={3} sx={{ padding: 2, width: 300 }}>

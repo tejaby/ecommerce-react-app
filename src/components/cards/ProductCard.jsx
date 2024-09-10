@@ -9,7 +9,12 @@ import CardActions from "@mui/material/CardActions";
 import Grid from "@mui/material/Grid2";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
+// hooks
+import { useCartActions } from "../../hooks/useCartActions";
+
 export const ProductCard = ({ product }) => {
+  const { addToCart } = useCartActions();
+
   return (
     <Grid size={{ xs: 12, sm: 6, md: 3 }}>
       <Card>
@@ -69,6 +74,7 @@ export const ProductCard = ({ product }) => {
             startIcon={<AddShoppingCartIcon />}
             sx={{ bgcolor: "#000" }}
             disabled={product.stock <= 0}
+            onClick={() => addToCart(product)}
           >
             Agregar al carrito
           </Button>

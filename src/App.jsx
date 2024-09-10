@@ -1,5 +1,6 @@
 // context
 import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 
 // routes
 import { Routes } from "./routes/Routes";
@@ -7,7 +8,9 @@ import { Routes } from "./routes/Routes";
 export default function App() {
   return (
     <AuthProvider>
-      <Routes />
+      <CartProvider>
+        <Routes />
+      </CartProvider>
     </AuthProvider>
   );
 }
