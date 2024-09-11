@@ -12,17 +12,16 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 // services
-import {
-  getOrderDetails,
-  updateOrderAdminState,
-} from "../../../services/orderService";
+import { updateOrderAdminState } from "../../services/orderService";
 
 // hooks
-import { useFetch } from "../../../hooks/useFetch";
-import { useSubmit } from "../../../hooks/useSubmit";
+import { useFetch } from "../../hooks/useFetch";
+import { useSubmit } from "../../hooks/useSubmit";
 
-export const OrderDetails = ({ order, onClose, removeOrder }) => {
-  const { data } = useFetch(getOrderDetails, order.order_id);
+import React from "react";
+
+export const OrderDetails = ({ order, onClose, removeOrder, service }) => {
+  const { data } = useFetch(service, order.order_id);
 
   const { execute } = useSubmit(updateOrderAdminState);
 

@@ -12,13 +12,14 @@ import Chip from "@mui/material/Chip";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // components
-import { OrderDetails } from "./OrderDetails";
+import { OrderDetails } from "../../../components/orders/OrderDetails";
 
 // react
 import { useState, useEffect } from "react";
 
 // services
 import { getOrders } from "../../../services/orderService";
+import { getOrderDetails } from "../../../services/orderService";
 
 // hooks
 import { useFetch } from "../../../hooks/useFetch";
@@ -93,7 +94,11 @@ export const CompletedOrders = () => {
         </Table>
       </TableContainer>
       {selectedOrder && (
-        <OrderDetails order={selectedOrder} onClose={handleCloseDetails} />
+        <OrderDetails
+          order={selectedOrder}
+          onClose={handleCloseDetails}
+          service={getOrderDetails}
+        />
       )}
     </>
   );

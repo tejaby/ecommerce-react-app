@@ -12,13 +12,14 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 
 // components
-import { OrderDetails } from "./OrderDetails";
+import { OrderDetails } from "../../../components/orders/OrderDetails";
 
 // react
 import { useState, useEffect } from "react";
 
 // services
 import { getOrders } from "../../../services/orderService";
+import { getOrderDetails } from "../../../services/orderService";
 
 // hooks
 import { useFetch } from "../../../hooks/useFetch";
@@ -101,6 +102,7 @@ export const ActiveOrders = () => {
           order={selectedOrder}
           onClose={handleCloseDetails}
           removeOrder={removeOrder}
+          service={getOrderDetails}
         />
       )}
     </>
