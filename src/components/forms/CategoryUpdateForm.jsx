@@ -18,6 +18,7 @@ import { updateCategory } from "../../services/categoryService";
 
 // hooks
 import { useSubmit } from "../../hooks/useSubmit";
+import { useNotify } from "../../hooks/useNotify";
 
 // components
 import { schema } from "./schemas/categoryUpdateSchema";
@@ -32,11 +33,18 @@ export const CategoryUpdateForm = ({ category, loading }) => {
 
   const navigate = useNavigate();
 
-  const { execute } = useSubmit(updateCategory);
+  const { execute, data, error } = useSubmit(updateCategory);
+
+  useNotify(
+    data,
+    error,
+    "Categoria actualizada con éxito",
+    "Error al actualizar la categoría",
+    "/dashboard/categorias/list"
+  );
 
   const onSubmit = (data) => {
     execute(data, category.category_id);
-    navigate("/dashboard/categorias/list");
   };
 
   const handleCancel = () => {
@@ -62,7 +70,7 @@ export const CategoryUpdateForm = ({ category, loading }) => {
         }}
       >
         <Box sx={{ px: 4, pt: 2 }}>
-          <Typography variant="h5">Crear Categoría</Typography>
+          <Typography variant="h5">Actualizar Categoría</Typography>
         </Box>
         <Box
           component="form"

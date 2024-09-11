@@ -1,7 +1,6 @@
 // librerias
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
 
 // material-ui
 import Box from "@mui/material/Box";
@@ -10,12 +9,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 
-
 // services
 import { createCategory } from "../../services/categoryService";
 
 // hooks
 import { useSubmit } from "../../hooks/useSubmit";
+import { useNotify } from "../../hooks/useNotify";
 
 // components
 import { schema } from "./schemas/categorySchema";
@@ -27,13 +26,18 @@ export const CategoryForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const navigate = useNavigate();
+  const { execute, data, error } = useSubmit(createCategory);
 
-  const { execute } = useSubmit(createCategory);
+  useNotify(
+    data,
+    error,
+    "Categoría creada con éxito",
+    "Error al crear la categoría",
+    "/dashboard/categorias/list"
+  );
 
   const onSubmit = (data) => {
     execute({ ...data, state_id: 1 });
-    navigate("/dashboard/categorias/list");
   };
 
   return (

@@ -10,13 +10,16 @@ import { createOrder } from "../../services/orderService";
 // hooks
 import { useCartActions } from "../../hooks/useCartActions";
 import { useSubmit } from "../../hooks/useSubmit";
+import { useNotify } from "../../hooks/useNotify";
 
 export const CartFooter = ({ cartItems, subtotal, handleSubmit, reset }) => {
-  const { execute, data, error, loading } = useSubmit(createOrder);
+  const { execute, data, error } = useSubmit(createOrder);
 
   const { clearCart } = useCartActions();
 
-  const onSubmit = (data) => {
+  useNotify(data, error, "Pedido creado con éxito", "Error al crear el pedido");
+
+  const onSubmit = async (data) => {
     const order = {
       ...data,
       total_amount: subtotal,
@@ -27,9 +30,11 @@ export const CartFooter = ({ cartItems, subtotal, handleSubmit, reset }) => {
         price: item.price,
       })),
     };
-    execute(order);
-    reset();
-    clearCart();
+    const result = await execute(order);
+    if (result) {
+      reset();
+      clearCart();
+    }
   };
 
   return (

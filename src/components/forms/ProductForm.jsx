@@ -1,7 +1,6 @@
 // librerias
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
 
 // material-ui
 import Box from "@mui/material/Box";
@@ -23,6 +22,7 @@ import { getCategories } from "../../services/categoryService";
 // hooks
 import { useFetch } from "../../hooks/useFetch";
 import { useSubmit } from "../../hooks/useSubmit";
+import { useNotify } from "../../hooks/useNotify";
 
 // components
 import { schema } from "./schemas/productSchema";
@@ -47,10 +47,17 @@ export const ProductForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const navigate = useNavigate();
 
   const { data } = useFetch(getCategories);
-  const { execute } = useSubmit(createProduct);
+  const { execute, data : response, error } = useSubmit(createProduct);
+
+  useNotify(
+    response,
+    error,
+    "Producto creado con éxito",
+    "Error al crear el producto",
+    "/dashboard/productos/list"
+  );
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -63,7 +70,6 @@ export const ProductForm = () => {
     formData.append("image", data.image[0]);
     formData.append("state_id", 1);
     execute(formData);
-    navigate("/dashboard/productos/list");
   };
 
   return (

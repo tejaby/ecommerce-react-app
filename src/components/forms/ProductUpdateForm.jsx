@@ -20,6 +20,7 @@ import { updateProduct } from "../../services/productService";
 
 // hooks
 import { useSubmit } from "../../hooks/useSubmit";
+import { useNotify } from "../../hooks/useNotify";
 
 // components
 import { schema } from "./schemas/productUpdateSchema";
@@ -46,7 +47,15 @@ export const ProductUpdateForm = ({ product, loading }) => {
 
   const navigate = useNavigate();
 
-  const { execute } = useSubmit(updateProduct);
+  const { execute, data, error } = useSubmit(updateProduct);
+
+  useNotify(
+    data,
+    error,
+    "Producto actualizado con éxito",
+    "Error al actualizar el producto",
+    "/dashboard/productos/list"
+  );
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -57,7 +66,6 @@ export const ProductUpdateForm = ({ product, loading }) => {
     formData.append("stock", data.stock);
     formData.append("image", data.image[0]);
     execute(formData, product.product_id);
-    navigate("/dashboard/productos/list");
   };
 
   const handleCancel = () => {

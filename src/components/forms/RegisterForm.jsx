@@ -22,6 +22,7 @@ import { registerUser } from "../../services/authService";
 
 // hooks
 import { useAuth } from "../../hooks/useAuth";
+import { useNotify } from "../../hooks/useNotify";
 
 // components
 import { schema } from "./schemas/registerSchema";
@@ -37,14 +38,13 @@ export const RegisterForm = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { executeService, error } = useAuth(registerUser);
+  const { executeService, user, error } = useAuth(registerUser);
 
-  const onSubmit = async (data) => {
+  useNotify(user, error, "Registro exitoso", error);
+
+  const onSubmit = (data) => {
     const newData = { ...data, state_id: 1 };
-    const result = await executeService(newData);
-    if (!result) {
-      console.log(error);
-    }
+    executeService(newData);
   };
 
   return (

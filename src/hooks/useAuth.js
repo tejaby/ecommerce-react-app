@@ -7,7 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 export const useAuth = (service) => {
   const [error, setError] = useState(null);
 
-  const { setUser, setToken } = useContext(AuthContext);
+  const { setUser, user, setToken } = useContext(AuthContext);
 
   const executeService = async (data) => {
     try {
@@ -19,9 +19,9 @@ export const useAuth = (service) => {
       return response;
     } catch (err) {
       setError(err.data.error);
-      return null;
+      throw err;
     }
   };
 
-  return { executeService, error };
+  return { executeService, user, error };
 };

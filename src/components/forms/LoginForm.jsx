@@ -18,6 +18,7 @@ import { loginUser } from "../../services/authService";
 
 // hooks
 import { useAuth } from "../../hooks/useAuth";
+import { useNotify } from "../../hooks/useNotify";
 
 // components
 import { schema } from "./schemas/loginSchema";
@@ -32,13 +33,12 @@ export const LoginForm = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { executeService, error } = useAuth(loginUser);
+  const { executeService, user, error } = useAuth(loginUser);
 
-  const onSubmit = async (data) => {
-    const result = await executeService(data);
-    if (!result) {
-      console.log(error);
-    }
+  useNotify(user, error, "Sesión iniciada con éxito", error);
+
+  const onSubmit = (data) => {
+    executeService(data);
   };
 
   return (

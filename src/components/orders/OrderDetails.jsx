@@ -17,18 +17,28 @@ import { updateOrderAdminState } from "../../services/orderService";
 // hooks
 import { useFetch } from "../../hooks/useFetch";
 import { useSubmit } from "../../hooks/useSubmit";
+import { useNotify } from "../../hooks/useNotify";
 
 import React from "react";
 
 export const OrderDetails = ({ order, onClose, removeOrder, service }) => {
   const { data } = useFetch(service, order.order_id);
 
-  const { execute } = useSubmit(updateOrderAdminState);
+  const { execute, data: response, error } = useSubmit(updateOrderAdminState);
 
-  const onSubmit = (state) => {
-    execute({ state_id: state }, order.order_id);
-    removeOrder(order.order_id);
-    onClose();
+  useNotify(
+    response,
+    error,
+    "Orden actualizada con éxito",
+    "Error al actualizar la orden"
+  );
+
+  const onSubmit = async (state) => {
+    const result = await execute({ state_id: state }, order.order_id);
+    if (result) {
+      removeOrder(order.order_id);
+      onClose();
+    }
   };
 
   return (

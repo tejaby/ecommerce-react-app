@@ -15,12 +15,15 @@ export const useSubmit = (service) => {
     if (!token) return;
 
     setLoading(true);
+    setError(null);
 
     try {
       const response = await service(token, ...args, data);
-      setData(response.data);
+      setData(response);
+      return response;
     } catch (err) {
-      setError(err.data.error);
+      setError(err.data);
+      throw err;
     } finally {
       setLoading(false);
     }
