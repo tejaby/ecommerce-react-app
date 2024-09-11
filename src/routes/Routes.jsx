@@ -34,6 +34,7 @@ import { Peripherals } from "../pages/products/categories/Peripherals";
 import { Monitors } from "../pages/products/categories/Monitors";
 import { Components } from "../pages/products/categories/Components";
 import { Products } from "../pages/products/Products";
+import { ProductDetail } from "../pages/products/ProductDetail";
 
 import { Cart } from "../pages/products/Cart";
 
@@ -53,6 +54,7 @@ export const Routes = () => {
           <Route path="monitores" element={<Monitors />} />
         </Route>
         <Route path="/productos" element={<Products />} />
+        <Route path="/productos/:id" element={<ProductDetail />} />
         <Route path="/cart" Component={Cart} />
       </Route>
       <Route element={<AdminRoute />}>
