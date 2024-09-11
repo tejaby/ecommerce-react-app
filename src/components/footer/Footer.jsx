@@ -38,13 +38,13 @@ export const Footer = () => {
             Contáctanos
           </Typography>
           <Typography variant="body2" gutterBottom sx={{ mt: 2 }}>
-            info@click.gt
+            teja@lonely.gt
           </Typography>
           <Typography variant="body2" gutterBottom>
-            Prrhh@click.gt
+            byteja@teja.gt
           </Typography>
           <Typography variant="body2" gutterBottom>
-            5951-3619
+            1234-5678
           </Typography>
         </Grid>
 

@@ -1,3 +1,6 @@
+// material-ui
+import { CssBaseline } from "@mui/material";
+
 // librerias
 import { Toaster } from "react-hot-toast";
 
@@ -12,6 +15,7 @@ export default function App() {
   return (
     <AuthProvider>
       <CartProvider>
+        <CssBaseline />
         <Routes />
         <Toaster position="bottom-center" reverseOrder={false} />
       </CartProvider>

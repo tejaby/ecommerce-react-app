@@ -63,7 +63,7 @@ export const OrderDetails = ({ order, onClose, removeOrder, service }) => {
                 <Card>
                   <CardMedia
                     component="img"
-                    height="140"
+                    height="200"
                     image={
                       product.image
                         ? product.image

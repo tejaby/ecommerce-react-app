@@ -64,7 +64,7 @@ export const ProductCard = ({ product }) => {
             color="error.main"
             sx={{ fontWeight: "bold", mr: 1 }}
           >
-            ${product.price}
+            Q{product.price}
           </Typography>
         </CardContent>
         <CardActions>

@@ -24,6 +24,7 @@ import { updateProductState } from "../../../services/productService";
 // hooks
 import { useFetch } from "../../../hooks/useFetch";
 import { useSubmit } from "../../../hooks/useSubmit";
+import { useNotify } from "../../../hooks/useNotify";
 
 // utils
 import { getStatusColor } from "../../../utils/getStatusColor";
@@ -33,16 +34,22 @@ export const ListProducts = () => {
 
   const { data, setData } = useFetch(getProductsExtended);
 
-  const { execute } = useSubmit(updateProductState);
+  const { execute, data: response, error } = useSubmit(updateProductState);
 
-  const onSubmit = (state, id) => {
+  useNotify(response, error, response?.message, error?.error);
+
+  const onSubmit = async (state, id) => {
     const newState = state === 1 ? 2 : 1;
-    execute({ state_id: newState }, id);
-    setData((prevData) =>
-      prevData.map((product) =>
-        product.product_id === id ? { ...product, state_id: newState } : product
-      )
-    );
+    const result = await execute({ state_id: newState }, id);
+    if (result) {
+      setData((prevData) =>
+        prevData.map((product) =>
+          product.product_id === id
+            ? { ...product, state_id: newState }
+            : product
+        )
+      );
+    }
   };
 
   const handleUpdate = (id) => {
@@ -89,7 +96,7 @@ export const ListProducts = () => {
                 </TableCell>
                 <TableCell align="right">
                   <Tooltip
-                    title={item.state_id === 1 ? "Activar" : "Desactivar"}
+                    title={item.state_id === 1 ? "Desactivar" : "Activar"}
                   >
                     <IconButton
                       onClick={() => onSubmit(item.state_id, item.product_id)}

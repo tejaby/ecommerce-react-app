@@ -24,6 +24,7 @@ import { updateCategoryState } from "../../../services/categoryService";
 // hooks
 import { useFetch } from "../../../hooks/useFetch";
 import { useSubmit } from "../../../hooks/useSubmit";
+import { useNotify } from "../../../hooks/useNotify";
 
 // utils
 import { getStatusColor } from "../../../utils/getStatusColor";
@@ -32,18 +33,22 @@ export const ListCategories = () => {
   const navigate = useNavigate();
 
   const { data, setData } = useFetch(getCategoriesExtended);
-  const { execute } = useSubmit(updateCategoryState);
+  const { execute, data: response, error } = useSubmit(updateCategoryState);
 
-  const onSubmit = (state, id) => {
+  useNotify(response, error, response?.message, error?.error);
+
+  const onSubmit = async (state, id) => {
     const newState = state === 1 ? 2 : 1;
-    execute({ state_id: newState }, id);
-    setData((prevData) =>
-      prevData.map((category) =>
-        category.category_id === id
-          ? { ...category, state_id: newState }
-          : category
-      )
-    );
+    const result = await execute({ state_id: newState }, id);
+    if (result) {
+      setData((prevData) =>
+        prevData.map((category) =>
+          category.category_id === id
+            ? { ...category, state_id: newState }
+            : category
+        )
+      );
+    }
   };
 
   const handleUpdate = (id) => {
@@ -80,7 +85,7 @@ export const ListCategories = () => {
                 </TableCell>
                 <TableCell align="right">
                   <Tooltip
-                    title={item.state_id === 1 ? "Activar" : "Desactivar"}
+                    title={item.state_id === 1 ? "Desactivar" : "Activar"}
                   >
                     <IconButton
                       onClick={() => onSubmit(item.state_id, item.category_id)}

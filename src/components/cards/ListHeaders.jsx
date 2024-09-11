@@ -1,3 +1,6 @@
+// librerias
+import { Link } from "react-router-dom";
+
 // material-ui
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -16,7 +19,14 @@ export const ListHeaders = ({ title }) => {
       <Typography variant="h5" component="h1">
         {title}
       </Typography>
-      <Button variant="outlined">Ver todo</Button>
+      <Button
+        variant="contained"
+        color="error"
+        component={Link}
+        to="/productos"
+      >
+        Ver todo
+      </Button>
     </Box>
   );
 };

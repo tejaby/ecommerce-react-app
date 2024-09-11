@@ -28,11 +28,12 @@ import { AdminOrders } from "../pages/admin/orders/AdminOrders";
 import { ActiveOrders } from "../pages/admin/orders/ActiveOrders";
 import { CompletedOrders } from "../pages/admin/orders/CompletedOrders";
 
-import { Products } from "../pages/products/Products";
+import { Categories } from "../pages/products/Categories";
 import { Laptops } from "../pages/products/categories/Laptops";
 import { Peripherals } from "../pages/products/categories/Peripherals";
 import { Monitors } from "../pages/products/categories/Monitors";
 import { Components } from "../pages/products/categories/Components";
+import { Products } from "../pages/products/Products";
 
 import { Cart } from "../pages/products/Cart";
 
@@ -45,12 +46,13 @@ export const Routes = () => {
         <Route path="/profile" Component={Profile} />
         <Route path="/order" Component={PurchaseHistory} />
         <Route path="/settings" Component={Settings} />\
-        <Route path="/categorias" element={<Products />}>
+        <Route path="/categorias" element={<Categories />}>
           <Route path="laptops" element={<Laptops />} />
           <Route path="perifericos" element={<Peripherals />} />
           <Route path="componentes" element={<Components />} />
           <Route path="monitores" element={<Monitors />} />
         </Route>
+        <Route path="/productos" element={<Products />} />
         <Route path="/cart" Component={Cart} />
       </Route>
       <Route element={<AdminRoute />}>
