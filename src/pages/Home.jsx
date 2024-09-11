@@ -2,6 +2,7 @@
 import { Layout } from "../components/layouts/Layout";
 import { ProductCard } from "../components/cards/ProductCard";
 import { ListHeaders } from "../components/cards/ListHeaders";
+import { Carousel } from "../components/carousel/Carousel";
 
 // material-ui
 import Box from "@mui/material/Box";
@@ -45,6 +46,15 @@ const products = [
 export const Home = () => {
   return (
     <Layout>
+      <Box
+        sx={{
+          maxWidth: "lg",
+          mx: "auto",
+          overflow: "hidden",
+        }}
+      >
+        <Carousel />
+      </Box>
       <Box sx={{ maxWidth: 1200, margin: "auto", padding: 2 }}>
         <ListHeaders title="Recien agregados" />
 
