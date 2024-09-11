@@ -29,6 +29,7 @@ import { OrderDetails } from "../../components/orders/OrderDetails";
 
 // utils
 import { getStatusColor } from "../../utils/getStatusColor";
+import { formatDate } from "../../utils/dateUtils";
 
 export const PurchaseHistory = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -66,7 +67,9 @@ export const PurchaseHistory = () => {
                   </TableCell>
                   <TableCell align="right">{item.phone_number}</TableCell>
                   <TableCell align="right">{item.total_amount}</TableCell>
-                  <TableCell align="right">{item.order_date}</TableCell>
+                  <TableCell align="right">
+                    {formatDate(item.order_date)}
+                  </TableCell>
                   <TableCell align="right">
                     <Chip
                       label={item.state}
