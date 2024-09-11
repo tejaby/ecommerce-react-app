@@ -11,13 +11,13 @@ export const useSubmit = (service) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const execute = async (data) => {
+  const execute = async (data, ...args) => {
     if (!token) return;
 
     setLoading(true);
 
     try {
-      const response = await service(token, data);
+      const response = await service(token, ...args, data);
       setData(response.data);
     } catch (err) {
       setError(err.data.error);

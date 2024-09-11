@@ -66,3 +66,16 @@ export const createOrder = async (token, data) => {
     throw err.response;
   }
 };
+
+export const updateOrderAdminState = async (token, id, state) => {
+  try {
+    const response = await axios.put(`${url}/${id}/state/admin`, state, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};

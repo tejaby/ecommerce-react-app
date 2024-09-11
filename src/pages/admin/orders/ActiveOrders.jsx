@@ -11,37 +11,45 @@ import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 
-// react
-import { useState, useEffect, useContext } from "react";
+// components
+import { OrderDetails } from "./OrderDetails";
 
-// context
-import { AuthContext } from "../../../context/AuthContext";
+// react
+import { useState, useEffect } from "react";
 
 // services
 import { getOrders } from "../../../services/orderService";
+
+// hooks
+import { useFetch } from "../../../hooks/useFetch";
 
 // utils
 import { getStatusColor } from "../../../utils/getStatusColor";
 
 export const ActiveOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const { token } = useContext(AuthContext);
+  const { data } = useFetch(getOrders);
+
+  const handleEditClick = (order) => {
+    setSelectedOrder(order);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedOrder(null);
+  };
+
+  const removeOrder = (id) => {
+    setOrders((prev) => prev.filter((order) => order.order_id !== id));
+  };
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const result = await getOrders(token);
-        const filterOrders = result.data.filter((order) => {
-          return order.state === "pending";
-        });
-        setOrders(filterOrders);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchOrders();
-  }, []);
+    if (data) {
+      const filterOrders = data.filter((order) => order.state === "pending");
+      setOrders(filterOrders);
+    }
+  }, [data]);
 
   return (
     <>
@@ -55,33 +63,46 @@ export const ActiveOrders = () => {
               <TableCell>Dirección</TableCell>
               <TableCell align="right">Número de teléfono</TableCell>
               <TableCell align="right">Total gastado</TableCell>
+              <TableCell align="right">Fecha de pedido</TableCell>
               <TableCell align="right">Usuario</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((item) => (
-              <TableRow hover key={item.order_id}>
-                <TableCell component="th" scope="row">
-                  {item.address}
-                </TableCell>
-                <TableCell align="right">{item.phone_number}</TableCell>
-                <TableCell align="right">{item.total_amount}</TableCell>
-                <TableCell align="right">{item.user}</TableCell>
-                <TableCell align="right">
-                  <Chip label={item.state} color={getStatusColor(item.state_id)} />
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton>
-                    <EditIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {orders &&
+              orders.map((item) => (
+                <TableRow hover key={item.order_id}>
+                  <TableCell component="th" scope="row">
+                    {item.address}
+                  </TableCell>
+                  <TableCell align="right">{item.phone_number}</TableCell>
+                  <TableCell align="right">{item.total_amount}</TableCell>
+                  <TableCell align="right">{item.order_date}</TableCell>
+                  <TableCell align="right">{item.user}</TableCell>
+                  <TableCell align="right">
+                    <Chip
+                      label={item.state}
+                      color={getStatusColor(item.state_id)}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton onClick={() => handleEditClick(item)}>
+                      <EditIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {selectedOrder && (
+        <OrderDetails
+          order={selectedOrder}
+          onClose={handleCloseDetails}
+          removeOrder={removeOrder}
+        />
+      )}
     </>
   );
 };
