@@ -23,12 +23,17 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
 
+// hooks
+import { useClearAuth } from "../../hooks/useClearAuth";
+
 export const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { user } = useContext(AuthContext);
   const { cartItems } = useContext(CartContext);
+
+  const { clearAuth } = useClearAuth();
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
@@ -202,7 +207,7 @@ export const Navbar = () => {
           {user.role_id === 1 && (
             <MenuItem
               component={Link}
-              to="/dashboard/orders/history"
+              to="/dashboard/orders/active"
               onClick={handleCloseUserMenu}
             >
               Dashboard
@@ -215,9 +220,7 @@ export const Navbar = () => {
           <MenuItem component={Link} to="/cart" onClick={handleCloseUserMenu}>
             Cesta
           </MenuItem>
-          <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
-            Cerrar Sesión
-          </MenuItem>
+          <MenuItem onClick={clearAuth}>Cerrar Sesión</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

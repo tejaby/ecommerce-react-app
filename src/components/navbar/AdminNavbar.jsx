@@ -14,8 +14,13 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // react
 import { useState } from "react";
 
+// hooks
+import { useClearAuth } from "../../hooks/useClearAuth";
+
 export const AdminNavbar = ({ toggleDrawer }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const { clearAuth } = useClearAuth();
 
   const handleOpenUserMenu = (e) => {
     setAnchorEl(e.currentTarget);
@@ -73,16 +78,10 @@ export const AdminNavbar = ({ toggleDrawer }) => {
           >
             Perfil
           </MenuItem>
-          <MenuItem
-            component={Link}
-            to="/"
-            onClick={handleCloseUserMenu}
-          >
+          <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
             Tienda
           </MenuItem>
-          <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
-            Cerrar Sesión
-          </MenuItem>
+          <MenuItem onClick={clearAuth}>Cerrar Sesión</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

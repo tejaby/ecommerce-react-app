@@ -1,3 +1,6 @@
+// librerias
+import { useNavigate } from "react-router-dom";
+
 // react
 import { useState, useContext } from "react";
 
@@ -9,6 +12,8 @@ export const useAuth = (service) => {
 
   const { setUser, user, setToken } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   const executeService = async (data) => {
     try {
       const response = await service(data);
@@ -16,7 +21,10 @@ export const useAuth = (service) => {
       setToken(response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
       localStorage.setItem("token", response.token);
-      return response;
+      if (response.user.role_id === 1) {
+        return navigate("/dashboard/orders/active");
+      }
+      navigate("/");
     } catch (err) {
       setError(err.data.error);
       throw err;
