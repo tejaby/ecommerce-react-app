@@ -50,9 +50,17 @@ export const ProductUpdateForm = ({ product, loading }) => {
 
   const onSubmit = async (data) => {
     try {
-      const result = await updateProduct(token, product.product_id, data);
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("brand", data.brand);
+      formData.append("price", data.price);
+      formData.append("stock", data.stock);
+      formData.append("image", data.image[0]);
+      const result = await updateProduct(token, product.product_id, formData);
       navigate("/dashboard/productos/list");
     } catch (err) {
+      console.log(err);
       console.log(err.data.error);
     }
   };
@@ -67,8 +75,7 @@ export const ProductUpdateForm = ({ product, loading }) => {
       setValue("description", product.description ? product.description : null);
       setValue("brand", product.brand ? product.brand : null);
       setValue("price", product.price ? product.price : null);
-      setValue("stock", product.stock ? product.stock : null);
-      setValue("image", product.image ? product.image : null);
+      setValue("stock", product.stock ? product.stock : 0);
     }
   }, [loading]);
 
@@ -139,7 +146,7 @@ export const ProductUpdateForm = ({ product, loading }) => {
               {...register("stock")}
             />
           </Box>
-          {/* <Button
+          <Button
             component="label"
             fullWidth
             role={undefined}
@@ -151,7 +158,7 @@ export const ProductUpdateForm = ({ product, loading }) => {
           >
             Upload files
             <VisuallyHiddenInput type="file" {...register("image")} />
-          </Button> */}
+          </Button>
           {errors.image && (
             <Typography
               textAlign={"center"}
@@ -167,7 +174,7 @@ export const ProductUpdateForm = ({ product, loading }) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              my: 2
+              my: 2,
             }}
           >
             <Button variant="contained" type="submit">

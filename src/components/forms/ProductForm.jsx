@@ -57,7 +57,16 @@ export const ProductForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const result = await createProduct(token, { ...data, state_id: 1 });
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("brand", data.brand);
+      formData.append("price", data.price);
+      formData.append("stock", data.stock);
+      formData.append("category_id", data.category_id);
+      formData.append("image", data.image[0]);
+      formData.append("state_id", 1);
+      const result = await createProduct(token, formData);
       navigate("/dashboard/productos/list");
     } catch (err) {
       console.log(err.data.error);
@@ -175,7 +184,7 @@ export const ProductForm = () => {
             )}
           />
         </FormControl>
-        {/* <Button
+        <Button
           component="label"
           fullWidth
           role={undefined}
@@ -187,7 +196,7 @@ export const ProductForm = () => {
         >
           Upload files
           <VisuallyHiddenInput type="file" {...register("image")} />
-        </Button> */}
+        </Button>
         {errors.image && (
           <Typography
             textAlign={"center"}
