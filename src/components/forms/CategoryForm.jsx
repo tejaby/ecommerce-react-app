@@ -10,14 +10,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 
-// react
-import { useContext, useState } from "react";
-
-// context
-import { AuthContext } from "../../context/AuthContext";
 
 // services
 import { createCategory } from "../../services/categoryService";
+
+// hooks
+import { useSubmit } from "../../hooks/useSubmit";
 
 // components
 import { schema } from "./schemas/categorySchema";
@@ -29,17 +27,13 @@ export const CategoryForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const { token } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    try {
-      const result = await createCategory(token, { ...data, state_id: 1 });
-      navigate("/dashboard/categorias/list");
-    } catch (err) {
-      console.log(err.data.error);
-    }
+  const { execute } = useSubmit(createCategory);
+
+  const onSubmit = (data) => {
+    execute({ ...data, state_id: 1 });
+    navigate("/dashboard/categorias/list");
   };
 
   return (

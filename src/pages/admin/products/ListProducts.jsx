@@ -17,44 +17,32 @@ import EditIcon from "@mui/icons-material/Edit";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
-// react
-import { useContext } from "react";
-
-// context
-import { AuthContext } from "../../../context/AuthContext";
-
 // services
 import { getProductsExtended } from "../../../services/productService";
 import { updateProductState } from "../../../services/productService";
 
 // hooks
-import { useFetchService } from "../../../hooks/useFetchService";
+import { useFetch } from "../../../hooks/useFetch";
+import { useSubmit } from "../../../hooks/useSubmit";
 
 // utils
 import { getStatusColor } from "../../../utils/getStatusColor";
 
 export const ListProducts = () => {
-  const { token } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
-  const { data, setData } = useFetchService(getProductsExtended, token);
+  const { data, setData } = useFetch(getProductsExtended);
 
-  const toggleStatus = async (id, state) => {
-    try {
-      const newState = state === 1 ? 2 : 1;
-      await updateProductState(token, id, {
-        state_id: newState,
-      });
+  const { execute } = useSubmit(updateProductState);
 
-      setData((prevData) =>
-        prevData.map((p) =>
-          p.product_id === id ? { ...p, state_id: newState } : p
-        )
-      );
-    } catch (err) {
-      console.log(err.data);
-    }
+  const onSubmit = (state, id) => {
+    const newState = state === 1 ? 2 : 1;
+    execute({ state_id: newState }, id);
+    setData((prevData) =>
+      prevData.map((product) =>
+        product.product_id === id ? { ...product, state_id: newState } : product
+      )
+    );
   };
 
   const handleUpdate = (id) => {
@@ -104,9 +92,7 @@ export const ListProducts = () => {
                     title={item.state_id === 1 ? "Activar" : "Desactivar"}
                   >
                     <IconButton
-                      onClick={() =>
-                        toggleStatus(item.product_id, item.state_id)
-                      }
+                      onClick={() => onSubmit(item.state_id, item.product_id)}
                     >
                       {item.state_id === 1 ? (
                         <ToggleOffIcon color="error" />

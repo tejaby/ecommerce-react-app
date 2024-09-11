@@ -16,15 +16,13 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-// react
-import { useContext, useState, useEffect } from "react";
-
-// context
-import { AuthContext } from "../../context/AuthContext";
-
 // services
 import { createProduct } from "../../services/productService";
 import { getCategories } from "../../services/categoryService";
+
+// hooks
+import { useFetch } from "../../hooks/useFetch";
+import { useSubmit } from "../../hooks/useSubmit";
 
 // components
 import { schema } from "./schemas/productSchema";
@@ -49,41 +47,24 @@ export const ProductForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const [categories, setCategories] = useState([]);
-
-  const { token } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("description", data.description);
-      formData.append("brand", data.brand);
-      formData.append("price", data.price);
-      formData.append("stock", data.stock);
-      formData.append("category_id", data.category_id);
-      formData.append("image", data.image[0]);
-      formData.append("state_id", 1);
-      const result = await createProduct(token, formData);
-      navigate("/dashboard/productos/list");
-    } catch (err) {
-      console.log(err.data.error);
-    }
-  };
+  const { data } = useFetch(getCategories);
+  const { execute } = useSubmit(createProduct);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const result = await getCategories(token);
-        setCategories(result.data);
-      } catch (err) {
-        console.log(err.data.error);
-      }
-    };
-    fetchCategories();
-  }, []);
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("brand", data.brand);
+    formData.append("price", data.price);
+    formData.append("stock", data.stock);
+    formData.append("category_id", data.category_id);
+    formData.append("image", data.image[0]);
+    formData.append("state_id", 1);
+    execute(formData);
+    navigate("/dashboard/productos/list");
+  };
 
   return (
     <Box
@@ -172,7 +153,7 @@ export const ProductForm = () => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {categories.map((category) => (
+                {data.map((category) => (
                   <MenuItem
                     key={category.category_id}
                     value={category.category_id}

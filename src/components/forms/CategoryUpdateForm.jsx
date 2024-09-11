@@ -11,13 +11,13 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 
 // react
-import { useContext, useEffect, useState } from "react";
-
-// context
-import { AuthContext } from "../../context/AuthContext";
+import { useEffect } from "react";
 
 // services
 import { updateCategory } from "../../services/categoryService";
+
+// hooks
+import { useSubmit } from "../../hooks/useSubmit";
 
 // components
 import { schema } from "./schemas/categoryUpdateSchema";
@@ -30,17 +30,13 @@ export const CategoryUpdateForm = ({ category, loading }) => {
     setValue,
   } = useForm({ resolver: yupResolver(schema) });
 
-  const { token } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    try {
-      const result = await updateCategory(token, category.category_id, data);
-      navigate("/dashboard/categorias/list");
-    } catch (err) {
-      console.log(err.data.error);
-    }
+  const { execute } = useSubmit(updateCategory);
+
+  const onSubmit = (data) => {
+    execute(data, category.category_id);
+    navigate("/dashboard/categorias/list");
   };
 
   const handleCancel = () => {
@@ -88,17 +84,13 @@ export const CategoryUpdateForm = ({ category, loading }) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              my: 2
+              my: 2,
             }}
           >
             <Button variant="contained" type="submit">
-            Actualizar Categoría
+              Actualizar Categoría
             </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={handleCancel}
-            >
+            <Button variant="contained" color="error" onClick={handleCancel}>
               Regresar
             </Button>
           </Box>

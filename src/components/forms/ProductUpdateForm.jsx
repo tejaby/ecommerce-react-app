@@ -13,13 +13,13 @@ import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 // react
-import { useContext, useState, useEffect } from "react";
-
-// context
-import { AuthContext } from "../../context/AuthContext";
+import { useEffect } from "react";
 
 // services
 import { updateProduct } from "../../services/productService";
+
+// hooks
+import { useSubmit } from "../../hooks/useSubmit";
 
 // components
 import { schema } from "./schemas/productUpdateSchema";
@@ -44,25 +44,20 @@ export const ProductUpdateForm = ({ product, loading }) => {
     setValue,
   } = useForm({ resolver: yupResolver(schema) });
 
-  const { token } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("description", data.description);
-      formData.append("brand", data.brand);
-      formData.append("price", data.price);
-      formData.append("stock", data.stock);
-      formData.append("image", data.image[0]);
-      const result = await updateProduct(token, product.product_id, formData);
-      navigate("/dashboard/productos/list");
-    } catch (err) {
-      console.log(err);
-      console.log(err.data.error);
-    }
+  const { execute } = useSubmit(updateProduct);
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("brand", data.brand);
+    formData.append("price", data.price);
+    formData.append("stock", data.stock);
+    formData.append("image", data.image[0]);
+    execute(formData, product.product_id);
+    navigate("/dashboard/productos/list");
   };
 
   const handleCancel = () => {

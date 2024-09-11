@@ -7,7 +7,7 @@ import { AuthContext } from "../context/AuthContext";
 export const useFetch = (service, ...args) => {
   const { token } = useContext(AuthContext);
 
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -29,5 +29,5 @@ export const useFetch = (service, ...args) => {
     fetchData();
   }, []);
 
-  return { data, error, loading };
+  return { data, setData, error, loading };
 };

@@ -8,25 +8,17 @@ import Grid from "@mui/material/Grid2";
 // components
 import { ProductCard } from "../../../components/cards/ProductCard";
 
-// react
-import { useContext } from "react";
-
-// context
-import { AuthContext } from "../../../context/AuthContext";
-
 // services
 import { getProducts } from "../../../services/productService";
 
 // hooks
-import { useFetchService } from "../../../hooks/useFetchService";
+import { useFetch } from "../../../hooks/useFetch";
 
 export const Laptops = () => {
   const location = useLocation();
   const currentRoute = location.pathname.split("/").pop();
 
-  const { token } = useContext(AuthContext);
-
-  const { data } = useFetchService(getProducts, token, currentRoute);
+  const { data } = useFetch(getProducts, currentRoute);
 
   return (
     <Box sx={{ maxWidth: 1200, margin: "auto", padding: 2 }}>
