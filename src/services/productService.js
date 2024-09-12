@@ -31,6 +31,19 @@ export const getProductsExtended = async (token) => {
   }
 };
 
+export const getProductsByName = async (token, name) => {
+  try {
+    const response = await axios.get(`${url}/${name}/search`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response;
+  }
+};
+
 export const getProduct = async (token, id) => {
   try {
     const response = await axios.get(`${url}/${id}`, {

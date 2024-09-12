@@ -71,13 +71,13 @@ export const AdminNavbar = ({ toggleDrawer }) => {
           open={Boolean(anchorEl)}
           onClose={handleCloseUserMenu}
         >
-          <MenuItem
+          {/* <MenuItem
             component={Link}
             to="/profile"
             onClick={handleCloseUserMenu}
           >
             Perfil
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem component={Link} to="/" onClick={handleCloseUserMenu}>
             Tienda
           </MenuItem>

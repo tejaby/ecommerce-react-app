@@ -53,11 +53,11 @@ export const ProductDetail = () => {
       }
     };
     fetchProduct();
-  }, []);
+  }, [id]);
 
   return (
     <Layout>
-      <Box sx={{ maxWidth: 900, margin: "auto", padding: 2 }}>
+      <Box key={id} sx={{ maxWidth: 900, margin: "auto", padding: 2 }}>
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, sm: 6, md: 6 }} sx={{ margin: "auto" }}>
             <Card>

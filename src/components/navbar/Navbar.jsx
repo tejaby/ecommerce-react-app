@@ -1,5 +1,6 @@
 // librerias
 import { Link } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 
 // material-ui
 import Box from "@mui/material/Box";
@@ -17,14 +18,21 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 // react
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 
 // context
 import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
 
+// services
+import { getProductsByName } from "../../services/productService";
+
 // hooks
 import { useClearAuth } from "../../hooks/useClearAuth";
+import { useSubmit } from "../../hooks/useSubmit";
+
+// components
+import { ProductList } from "../cards/ProductList";
 
 export const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -34,6 +42,13 @@ export const Navbar = () => {
   const { cartItems } = useContext(CartContext);
 
   const { clearAuth } = useClearAuth();
+
+  const { execute } = useSubmit(getProductsByName);
+
+  const [search, setSearch] = useState("");
+  const [products, setProducts] = useState([]);
+
+  const [debouncedSearchTerm] = useDebounce(search, 500);
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
@@ -50,6 +65,15 @@ export const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    if (!debouncedSearchTerm) return;
+    const findProducts = async () => {
+      const response = await execute(search);
+      setProducts(response.data);
+    };
+    findProducts();
+  }, [debouncedSearchTerm]);
 
   return (
     <AppBar position="fixed" color="inherit">
@@ -149,6 +173,7 @@ export const Navbar = () => {
             alignItems: "center",
             marginRight: 2,
             flexGrow: 0,
+            position: "relative",
           }}
         >
           <InputBase
@@ -160,10 +185,16 @@ export const Navbar = () => {
               borderRadius: "4px",
               padding: "2px 8px",
             }}
+            onChange={(e) => setSearch(e.target.value)}
           />
           <IconButton type="submit" color="inherit">
             <SearchIcon />
           </IconButton>
+          {!!search && (
+            <Box sx={{ position: "absolute", right: 0, top: 40 }}>
+              <ProductList products={products} setSearch={setSearch} />
+            </Box>
+          )}
         </Box>
 
         <IconButton component={Link} to="/cart" color="inherit">
@@ -197,13 +228,13 @@ export const Navbar = () => {
           open={Boolean(anchorEl)}
           onClose={handleCloseUserMenu}
         >
-          <MenuItem
+          {/* <MenuItem
             component={Link}
             to="/profile"
             onClick={handleCloseUserMenu}
           >
             Perfil
-          </MenuItem>
+          </MenuItem> */}
           {user.role_id === 1 && (
             <MenuItem
               component={Link}

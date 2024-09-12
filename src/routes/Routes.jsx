@@ -11,9 +11,9 @@ import { Home } from "../pages/Home";
 import { Login } from "../pages/auth/Login";
 import { Register } from "../pages/auth/Register";
 
-import { Profile } from "../pages/user/Profile";
+// import { Profile } from "../pages/user/Profile";
 import { PurchaseHistory } from "../pages/user/PurchaseHistory";
-import { Settings } from "../pages/user/Settings";
+// import { Settings } from "../pages/user/Settings";
 
 import { DashBoard } from "../pages/admin/DashBoard";
 import { AdminCategories } from "../pages/admin/categories/AdminCategories";
@@ -44,9 +44,9 @@ export const Routes = () => {
       <Route element={<ProtectedRoute />}>
         <Route index Component={Home} />
         <Route path="/home" Component={Home} />
-        <Route path="/profile" Component={Profile} />
+        {/* <Route path="/profile" Component={Profile} /> */}
         <Route path="/order" Component={PurchaseHistory} />
-        <Route path="/settings" Component={Settings} />\
+        {/* <Route path="/settings" Component={Settings} /> */}
         <Route path="/categorias" element={<Categories />}>
           <Route path="laptops" element={<Laptops />} />
           <Route path="perifericos" element={<Peripherals />} />
